@@ -1,0 +1,35 @@
+/*
+    Crossword Grid
+    (c) 2024 Alessandro Scotti
+    MIT License
+*/
+@import url(crossword-grid.css);
+
+body {
+    font-family: sans-serif;
+}
+
+.schema {
+    font-family: sans-serif;
+    font-size: var(--cell-height);
+    width: fit-content;
+}
+
+.title {
+    color: black;
+    text-align: center;
+    position: relative;
+    margin-bottom: 0.2em;
+}
+
+.title>span {
+    font-weight: bold;
+}
+
+.author {
+    font-style: italic;
+    font-size: 60%;
+    position: absolute;
+    right: 0;
+    bottom: 0.1em;
+}
