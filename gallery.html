@@ -1,0 +1,66 @@
+<!--
+    Crossword Grid
+    Demo gallery
+-->
+<html lang="en">
+
+<head>
+    <title>Crossword Grid demo gallery</title>
+    <link rel="stylesheet" type="text/css" href="test.css">
+    <script src="crossword-grid.js"></script>
+    <script src="schemas.js"></script>
+    <script src="gallery.js"></script>
+
+    <style>
+        body {
+            background: lightgray;
+        }
+
+        h1, p {
+            text-align: center;
+        }
+
+        .gallery {
+            text-align: center;
+        }
+
+        .schema {
+            margin: 1em;
+            display: inline-block;
+        }
+
+        .syllabic {
+            --cell-size: 2.1em;
+            --cell-height: 1.5em;
+        }
+
+        .linotype .cell {
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Crossword Grid demo gallery</h1>
+    <p>This page showcases some of the styles supported by the <a>Crossword Grid</a> component.</p>
+
+    <div class="gallery">
+        <div class="schema modern" data-schema-id="demo3" data-title="Modern, simplified"></div>
+        <div class="schema" data-schema-id="demo4" data-title="Classic, large"></div>
+        <div class="schema modern" data-schema-id="20240811.1" data-title="Diamond"></div>
+        <div class="schema" data-schema-id="20240806.1" data-title="With picture"></div>
+        <div class="schema revealed hide-numbers" data-schema-id="20240809.1v2" data-title="Solution"></div>
+        <div class="schema modern dark" data-schema-id="20240810.1" data-title="Dark modern"></div>
+        <div class="schema modern hide-numbers linotype" data-schema-id="demo1" data-title="Crossed words"></div>
+        <div class="schema syllabic" data-schema-id="demo2" data-title="Syllabic"></div>
+        <div class="schema hide-numbers" data-schema-id="demo5" data-title="Hard, lots of hidden stuff"></div>
+        <div class="schema revealed hide-numbers" data-schema-id="demo6" data-title="Word search"></div>
+        <div class="schema syllabic" data-schema-id="demo7" data-title="Two- and three-letter groups"></div>
+    </div>
+
+    <script>
+        populateGallery();
+    </script>
+</body>
+
+</html>

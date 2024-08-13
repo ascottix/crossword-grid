@@ -1,0 +1,212 @@
+/*
+    Crossword Grid
+    Copyright (c) 2024 Alessandro Scotti
+    MIT License
+*/
+:root {
+    --cell-size: 1.5em;
+    --cell-height: calc(var(--cell-size) / 1);
+    /* Use a factor > 1 to create rectangular cells */
+    --cell-empty-padding: calc(var(--cell-height) / 12.5);
+    --number-font-size: calc(var(--cell-height) / 3);
+    --number-pos-x: 2px;
+    --number-pos-y: 0;
+    --grid-border-size: 2px;
+    --grid-border-color: black;
+    /* Precompute longer expressions and isolate use of round() */
+    --cw-b-of2: round(up, calc(var(--grid-border-size) / 2), 1px);
+    --cw-b-sz2: round(up, calc((var(--grid-border-size) + 1px) / 2), 1px);
+}
+
+.grid-container {
+    display: grid;
+    align-items: center;
+    gap: 1px;
+    width: fit-content;
+    border: calc(var(--grid-border-size) + 1px) solid var(--grid-border-color);
+    text-transform: uppercase;
+    font-size: 100%;
+}
+
+.cell {
+    background: white;
+    height: var(--cell-height);
+    color: transparent;
+    outline: 1px solid black;
+    text-align: center;
+    display: grid;
+    align-items: center;
+    position: relative;
+}
+
+.cell.bi {
+    box-shadow: inset 0 0 var(--cell-size) var(--cell-size) lightgray;
+}
+
+.revealed .cell,
+.cell.revealed {
+    color: black;
+}
+
+.syllabic.revealed .cell,
+.syllabic .cell.revealed {
+    font-size: 100%;
+}
+
+.cell.number::before {
+    content: attr(data-number);
+    color: black;
+    position: absolute;
+    left: var(--number-pos-x);
+    top: var(--number-pos-y);
+    font-size: var(--number-font-size);
+}
+
+.hide-numbers .cell.number::before {
+    content: '';
+}
+
+.revealed .cell.empty.hidden,
+.cell.empty {
+    border: var(--cell-empty-padding) solid white;
+    /* Use box-shadow because background is not printable */
+    box-shadow: inset 0 0 var(--cell-size) var(--cell-size) black;
+    box-sizing: border-box;
+}
+
+.cell.empty.hidden {
+    box-shadow: none;
+}
+
+.placeholder {
+    background: pink;
+    height: 100%;
+    width: 100%;
+    border: var(--grid-border-size) solid black;
+    box-sizing: border-box;
+}
+
+.placeholder img {
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.grayscale .placeholder img {
+    filter: grayscale(1);
+}
+
+/* In the modern style, the grid outline is resolved at the cell level */
+.modern .grid-container {
+    border: none;
+    /* Add padding to compensate for the outline (which goes outside the grid) */
+    padding: calc(var(--grid-border-size) + 1px) 0 0 calc(var(--grid-border-size) + 1px);
+}
+
+.modern-fill .cell.empty,
+.modern .cell.empty {
+    box-shadow: inset 0 0 var(--cell-size) var(--cell-size) green;
+}
+
+.modern .cell.empty.hole {
+    visibility: hidden;
+}
+
+.modern .placeholder {
+    border: none;
+}
+
+.modern .cell.bl {
+    box-shadow: calc(var(--grid-border-size) * -1) 0 0 1px var(--grid-border-color);
+}
+
+.modern .cell.br {
+    box-shadow: var(--grid-border-size) 0 0 1px var(--grid-border-color);
+}
+
+.modern .cell.bt {
+    box-shadow: 0 calc(var(--grid-border-size) * -1) 0 1px var(--grid-border-color);
+}
+
+.modern .cell.bb {
+    box-shadow: 0 var(--grid-border-size) 0 1px var(--grid-border-color);
+}
+
+.modern .cell.bl.br {
+    box-shadow: calc(var(--grid-border-size) * -1) 0 0 1px var(--grid-border-color),
+        var(--grid-border-size) 0 0 1px var(--grid-border-color);
+}
+
+.modern .cell.bt.bb {
+    box-shadow: 0 calc(var(--grid-border-size) * -1) 0 1px var(--grid-border-color),
+        0 var(--grid-border-size) 0 1px var(--grid-border-color);
+}
+
+.modern .cell.bl.bt {
+    box-shadow: calc(var(--cw-b-of2)*-1) calc(var(--cw-b-of2)*-1) 0 var(--cw-b-sz2) var(--grid-border-color);
+}
+
+.modern .cell.br.bt {
+    box-shadow: var(--cw-b-of2) calc(var(--cw-b-of2)*-1) 0 var(--cw-b-sz2) var(--grid-border-color),
+        0 calc(var(--grid-border-size) * -1) 0 1px var(--grid-border-color);
+}
+
+.modern .cell.bl.bb {
+    box-shadow: calc(var(--cw-b-of2)*-1) var(--cw-b-of2) 0 var(--cw-b-sz2) var(--grid-border-color),
+        0 var(--grid-border-size) 0 1px var(--grid-border-color);
+}
+
+.modern .cell.br.bb {
+    box-shadow: var(--cw-b-of2) var(--cw-b-of2) 0 var(--cw-b-sz2) var(--grid-border-color);
+}
+
+.modern .cell.bl.bt.br {
+    box-shadow: calc(var(--cw-b-of2)*-1) calc(var(--cw-b-of2)*-1) 0 var(--cw-b-sz2) var(--grid-border-color),
+        var(--cw-b-of2) calc(var(--cw-b-of2)*-1) 0 var(--cw-b-sz2) var(--grid-border-color);
+}
+
+.modern .cell.bl.bb.br {
+    box-shadow: calc(var(--cw-b-of2)*-1) var(--cw-b-of2) 0 var(--cw-b-sz2) var(--grid-border-color),
+        var(--cw-b-of2) var(--cw-b-of2) 0 var(--cw-b-sz2) var(--grid-border-color);
+}
+
+.modern .cell.bl.bt.bb {
+    box-shadow: calc(var(--cw-b-of2)*-1) calc(var(--cw-b-of2)*-1) 0 var(--cw-b-sz2) var(--grid-border-color),
+        calc(var(--cw-b-of2)*-1) var(--cw-b-of2) 0 var(--cw-b-sz2) var(--grid-border-color);
+}
+
+.modern .cell.br.bt.bb {
+    box-shadow: var(--cw-b-of2) calc(var(--cw-b-of2)*-1) 0 var(--cw-b-sz2) var(--grid-border-color),
+        var(--cw-b-of2) var(--cw-b-of2) 0 var(--cw-b-sz2) var(--grid-border-color);
+}
+
+@media only screen {
+    .dark {
+        --grid-border-color: white;
+    }
+
+    .dark .cell {
+        background: #323232;
+        outline: 1px solid white;
+    }
+
+    .dark.revealed .cell,
+    .dark .cell.revealed {
+        color: white;
+    }
+
+    .dark .cell.number::before {
+        color: white;
+    }
+
+    .dark.revealed .cell.empty.hidden,
+    .dark .cell.empty {
+        border: var(--cell-empty-padding) solid darkgray;
+    }
+
+    .dark.modern-fill .cell.empty,
+    .dark.modern .cell.empty {
+        box-shadow: inset 0 0 var(--cell-size) var(--cell-size) darkgreen;
+    }
+}
