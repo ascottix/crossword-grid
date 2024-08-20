@@ -49,7 +49,7 @@ const Schemas = [
             'aa eeeeeeeee',
             'dddddddd d d'
         ],
-        help: {
+        hints: {
             12: 3,
             18: 6,
             19: 3,
@@ -93,7 +93,7 @@ const Schemas = [
             'aaa ?aaaa',
             'aaaaa?a?a'
         ],
-        help: {
+        hints: {
             9: 2,
             26: 3
         }
@@ -138,6 +138,19 @@ const Schemas = [
             'aa-aaa aaa-aa-aaa aa-aa-aa aaa-aaa',
             'aaa aaa-aa-aa aaa-aaa-aaa aa-aaa ',
             'aaa-aa-aa-aaa aaa-aaa-aa aaa-aa-aa-aaa'
+        ]
+    }, {
+        id: "demo8",
+        grid: [
+            'aa_aaa|_aaaaaa_a_a|a_aaaa',
+            'aa|aa_aaaa_a_a_aaaa|aaaa',
+            'a|aaaaaa_aaa|aaaaaaa|a',
+            'a|aa_aa|a_aaaaaaa_a_a_aa|a',
+            'a_a_aaaaaaaaa_aaaa|aaa',
+            'aaaaaaaa_a_aaa|_aaaaa|a',
+            '_a|_aaaaaa_a|aa_aaaa_aaaa',
+            'aaaa_a_aaaa|aaaa|aaaa|a',
+            'aaaaaaa|aaaaaaaaa|aa'
         ]
     }, {
         author: {
@@ -214,7 +227,7 @@ const Schemas = [
             'titani',
             'aaa is     1'
         ],
-        help: {
+        hints: {
             7: 2,
             11: 5
         },
@@ -237,7 +250,7 @@ const Schemas = [
             'titani',
             'aaa es     1'
         ],
-        help: {
+        hints: {
             7: 2,
             11: 5
         },
@@ -288,4 +301,42 @@ const Schemas = [
             '     ace',
             '      a'
         ],
+        definitions: {
+            h: {
+                2: 'Una azione del poker',
+                4: 'Il letto di un fiume',
+                6: 'Volano planando',
+                8: 'Frazione di chilo',
+                9: 'Totalmente bruciata',
+                11: 'È meglio non darsene troppe',
+                12: '___! Salute!',
+                14: 'Spezzone di video',
+                15: 'Ci si può navigare, ma non in barca',
+                16: 'Un tipo di jazz',
+                18: 'Nasconde la luna agli stolti',
+                19: 'Frutto amazzonico di colore scuro',
+                21: 'Non molto',
+                22: 'Scandiscono il tempo',
+                24: 'Così morì Napoleone',
+                25: 'Fa punto per il tennista'
+            },
+            v: {
+                1: 'Tipo di cornamusa',
+                2: 'Modello di auto della Renault',
+                3: 'Si sconta in carcere',
+                4: "Tutt'altro che basse",
+                5: 'Recipiente per liquidi',
+                6: 'Del tutto inconsueto',
+                7: 'Sono simili ai porcospini',
+                8: 'Arbusto sempreverde ornamentale',
+                10: "Un condimento dell'insalata",
+                11: 'Organo per il volo',
+                13: "Andato... un bel po' di tempo fa",
+                17: 'Un verbo del generoso',
+                18: 'Era la massima autorità nella Repubblica di Venezia',
+                20: 'Indica grande quantità e sovrabbondanza',
+                21: 'La posizione più ambita nella F1',
+                23: 'Uno degli evangelisti'
+            }
+        }
     }];

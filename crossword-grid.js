@@ -6,31 +6,90 @@
 const CssClass = Object.freeze({
     GridContainer: 'grid-container',
     PicturePlaceholer: 'placeholder',
+    GroupOf: 'group',
     Cell: 'cell',
     CellHasNumber: 'number',
-    CellHasTwoLetters: 'bi',
     CellIsEmpty: 'empty',
+    CellIsEmptyHidden: 'hidden',
     CellIsHole: 'hole',
-    CellEmptyHidden: 'hidden',
     CellContentIsVisible: 'revealed',
-    CellHasBorderLeft: 'bl',
+    CellHasBorderLeft: 'bl', // A border is betwen a cell and outside the grid
     CellHasBorderRight: 'br',
     CellHasBorderTop: 'bt',
     CellHasBorderBottom: 'bb',
+    CellHasDividerLeft: 'dl', // A divider is between two cells
+    CellHasDividerRight: 'dr',
+    CellHasDividerTop: 'dt',
+    CellHasDividerBottom: 'db',
+});
+
+const SpChar = Object.freeze({
+    VerticalDivider: '|',
+    HorizontalDivider: '_',
+    WordGroupSeparator: '-',
+    EmptyCell: ' ',
+    HiddenEmptyCell: '?',
+    HoleCell: '.',
+    NotEmptyRegEx: /[a-z]/i, // Cell contains text
+    PlaceholderRegEx: /[0-9]/
 });
 
 function generateGridHtml(schema) {
     // Splits a grid line definition into cells
     function lineToCells(line) {
-        return line.indexOf('-') > 0 ?
-            line.replaceAll(' ', '- -').replace(/^-|-$/, '').split('-') :
-            line.split('')
+        return line.indexOf(SpChar.WordGroupSeparator) > 0 ?
+            line.replaceAll(SpChar.EmptyCell, SpChar.WordGroupSeparator + SpChar.EmptyCell + SpChar.WordGroupSeparator).replace(new RegExp(`^${SpChar.WordGroupSeparator}|${SpChar.WordGroupSeparator}$`), '').split(SpChar.WordGroupSeparator) :
+            line.split('');
     }
 
-    // Convert the grid definition in a more usable format
+    // Convert the grid definition to a more usable format
     const grid = schema.grid.map(line => lineToCells(line));
-    const gridWidth = Math.max(...grid.map(line => line.length));
     const gridHeight = grid.length;
+
+    // Creates a cell key from a cell coordinates
+    function keyFor(x, y) {
+        return `${x}:${y}`;
+    }
+
+    // Adds a CSS class to a cell
+    const cellCssClasses = {};
+
+    function getCssOfCell(x, y) {
+        return cellCssClasses[keyFor(x, y)] || [];
+    }
+
+    function addCssToCell(x, y, cl) {
+        const k = keyFor(x, y);
+        cellCssClasses[k] = cellCssClasses[k] || [];
+        cellCssClasses[k].push(cl);
+    }
+
+    // Locate dividers and put them aside (note: this pass may change the grid content and must come first)
+    for (let y = 0; y < gridHeight; y++) {
+        const line = grid[y];
+
+        for (let x = 0; x < line.length; x++) {
+            const c = line[x];
+
+            if (c == SpChar.VerticalDivider || c == SpChar.HorizontalDivider) {
+                if (c == SpChar.VerticalDivider) {
+                    addCssToCell(x, y, CssClass.CellHasDividerLeft);
+                    addCssToCell(x - 1, y, CssClass.CellHasDividerRight);
+                } else {
+                    addCssToCell(x, y, CssClass.CellHasDividerBottom);
+                    addCssToCell(x, y + 1, CssClass.CellHasDividerTop);
+                }
+                // Remove divider special character and stay in place
+                line.splice(x, 1).join('');
+                x--;
+            }
+        }
+
+        grid[y] = line; // Put back the line stripped of dividers
+    }
+
+    // Now we can compute the grid width
+    const gridWidth = Math.max(...grid.map(line => line.length));
 
     // Returns the grid text at the specified coordinates
     function textAt(x, y) {
@@ -41,15 +100,10 @@ function generateGridHtml(schema) {
 
     // Returns true if a character represents an empty cell (i.e. a word separator or part of a picture)
     function isEmpty(x, y) {
-        return !/[a-z]/i.test(textAt(x, y));
+        return !SpChar.NotEmptyRegEx.test(textAt(x, y));
     }
 
-    // Creates a key from a cell coordinates
-    function keyFor(x, y) {
-        return `${x}:${y}`;
-    }
-
-    // First pass: look for picture placeholder
+    // Look for picture placeholder
     const placeholderRect = {};
     let inPlaceholder = false;
 
@@ -57,7 +111,7 @@ function generateGridHtml(schema) {
         for (let x = 0; x < gridWidth; x++) {
             const c = textAt(x, y);
 
-            if (/[0-9]/.test(c)) {
+            if (SpChar.PlaceholderRegEx.test(c)) {
                 if (!inPlaceholder) {
                     inPlaceholder = true;
                     placeholderRect.sx = x;
@@ -75,7 +129,7 @@ function generateGridHtml(schema) {
         return x >= placeholderRect.sx && x < placeholderRect.ex && y >= placeholderRect.sy && y < placeholderRect.ey;
     }
 
-    // Second pass: locate border cells (cells that are empty and that are connected to the grid border)
+    // Locate border cells (cells that are empty and that touch the grid outside)
     const holeIndex = {};
 
     function isHoleAt(x, y) {
@@ -88,7 +142,7 @@ function generateGridHtml(schema) {
         for (let y = 0; y < gridHeight; y++) {
             for (let x = 0; x < gridWidth; x++) {
                 if (!isHoleAt(x, y) && (isEmpty(x, y) && !isInPlaceholder(x, y))) {
-                    if (textAt(x, y) == '.' || isHoleAt(x - 1, y) || isHoleAt(x + 1, y) || isHoleAt(x, y - 1) || isHoleAt(x, y + 1)) {
+                    if (textAt(x, y) == SpChar.HoleCell || isHoleAt(x - 1, y) || isHoleAt(x + 1, y) || isHoleAt(x, y - 1) || isHoleAt(x, y + 1)) {
                         holeIndex[keyFor(x, y)] = true;
                         found++;
                     }
@@ -101,24 +155,21 @@ function generateGridHtml(schema) {
 
     while (findHoles() > 0);
 
-    // Third pass: assign borders to cells (this is necessary to support the modern style)
-    const borderCssClasses = {};
-
+    // Assign borders to cells (this is necessary to support the modern style)
     for (let y = 0; y < gridHeight; y++) {
         for (let x = 0; x < gridWidth; x++) {
-            const borders = [];
-
-            isHoleAt(x - 1, y) && borders.push(CssClass.CellHasBorderLeft);
-            isHoleAt(x + 1, y) && borders.push(CssClass.CellHasBorderRight);
-            isHoleAt(x, y - 1) && borders.push(CssClass.CellHasBorderTop);
-            isHoleAt(x, y + 1) && borders.push(CssClass.CellHasBorderBottom);
-
-            borderCssClasses[keyFor(x, y)] = borders.join(' ');
+            isHoleAt(x - 1, y) && addCssToCell(x, y, CssClass.CellHasBorderLeft);
+            isHoleAt(x + 1, y) && addCssToCell(x, y, CssClass.CellHasBorderRight);
+            isHoleAt(x, y - 1) && addCssToCell(x, y, CssClass.CellHasBorderTop);
+            isHoleAt(x, y + 1) && addCssToCell(x, y, CssClass.CellHasBorderBottom);
         }
     }
 
-    // Fourth pass: assign numbers and generate the grid
+    // Assign numbers and generate the grid
     const html = [];
+    let cellNumber = 0;
+
+    html.push(`<div class="${CssClass.GridContainer}" style="grid-template-columns: repeat(${gridWidth}, var(--cell-size));">`);
 
     function cell(classes, attrs, content) {
         const cl = [CssClass.Cell, ...classes].filter(e => e).join(' ');
@@ -126,19 +177,20 @@ function generateGridHtml(schema) {
         html.push(`<div class="${cl}" ${attrs}>${content}</div>`);
     }
 
-    html.push(`<div class="${CssClass.GridContainer}" style="grid-template-columns: repeat(${gridWidth}, var(--cell-size));">`);
-
-    let cellNumber = 0;
-    const helpIndex = {}
-
     for (let y = 0; y < gridHeight; y++) {
         for (let x = 0; x < gridWidth; x++) {
             const c = textAt(x, y);
 
+            if(c.length > 1) {
+                addCssToCell(x, y, `${CssClass.GroupOf}${c.length}`);
+            }
+
             // Check to see if this cell should be numbered
-            const startHoriz = isEmpty(x - 1, y) && !isEmpty(x + 1, y);
-            const startVert = isEmpty(x, y - 1) && !isEmpty(x, y + 1);
-            const hasNumber = !isEmpty(x, y) && (startHoriz || startVert);
+            const canStartHoriz = isEmpty(x - 1, y) || getCssOfCell(x, y).includes(CssClass.CellHasDividerLeft);
+            const canEndHoriz = !isEmpty(x + 1, y) && !getCssOfCell(x + 1, y).includes(CssClass.CellHasDividerLeft);;
+            const canStartVert = isEmpty(x, y - 1) || getCssOfCell(x, y).includes(CssClass.CellHasDividerTop);
+            const canEndVert = !isEmpty(x, y + 1) && !getCssOfCell(x, y + 1).includes(CssClass.CellHasDividerTop);
+            const hasNumber = !isEmpty(x, y) && ((canStartHoriz && canEndHoriz) || (canStartVert && canEndVert));
 
             if (isEmpty(x, y)) {
                 if (x == placeholderRect.sx && y == placeholderRect.sy) {
@@ -147,13 +199,6 @@ function generateGridHtml(schema) {
                         `grid-column: span ${placeholderRect.ex - placeholderRect.sx}`,
                         `grid-row: span ${placeholderRect.ey - placeholderRect.sy}`
                     ];
-
-                    const classes = [CssClass.PicturePlaceholer];
-
-                    x == 0 && classes.push(CssClass.CellHasBorderLeft);
-                    placeholderRect.ex == gridWidth && classes.push(CssClass.CellHasBorderRight);
-                    y == 0 && classes.push(CssClass.CellHasBorderTop);
-                    placeholderRect.ey == gridHeight && classes.push(CssClass.CellHasBorderBottom);
 
                     // Remove the borders that are already provided by the grid itself
                     x == 0 && styles.push('border-left: none');
@@ -164,27 +209,25 @@ function generateGridHtml(schema) {
                     // Assign a picture if specified
                     const content = schema.picture ? `<img src='${schema.picture}' alt='${schema.picture_alt || schema.picture}'>` : '';
 
-                    cell(classes, `style="${styles.join(';')};"`, content, '');
+                    cell([CssClass.PicturePlaceholer], `style="${styles.join(';')};"`, content, '');
                 } else if (!isInPlaceholder(x, y)) {
                     // Empty cell (word separator)
-                    cell([CssClass.CellIsEmpty, holeIndex[keyFor(x, y)] && CssClass.CellIsHole, c == '?' && CssClass.CellEmptyHidden], '', '');
+                    cell([CssClass.CellIsEmpty, holeIndex[keyFor(x, y)] && CssClass.CellIsHole, c == SpChar.HiddenEmptyCell && CssClass.CellIsEmptyHidden], '', '');
                 }
             } else if (hasNumber) {
                 // Numbered cell
                 cellNumber++;
 
-                cell([CssClass.CellHasNumber, borderCssClasses[keyFor(x, y)], c.length == 2 && CssClass.CellHasTwoLetters], `data-number=${cellNumber}`, c);
-
-                // Check to see if there's some help associated to this number
-                const help = (schema.help || {})[cellNumber];
-                if (help) {
-                    helpIndex[`${x + help - 1}:${y}`] = true;
+                // Check to see if there's some hint (visible text) associated to this number
+                const hint = (schema.hints || {})[cellNumber];
+                if (hint) {
+                    addCssToCell(x + hint - 1, y, CssClass.CellContentIsVisible);
                 }
+
+                cell([CssClass.CellHasNumber, ...getCssOfCell(x, y)], `data-number=${cellNumber}`, c);
             } else {
                 // Standard cell
-                const help = helpIndex[`${x}:${y}`];
-
-                cell([help && CssClass.CellContentIsVisible, borderCssClasses[keyFor(x, y)], c.length == 2 && CssClass.CellHasTwoLetters], '', c);
+                cell(getCssOfCell(x, y), '', c);
             }
         }
     }

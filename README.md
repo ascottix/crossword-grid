@@ -1,6 +1,6 @@
 # Crossword Grid
 
-Crossword Grid is a JavaScript component for rendering crossword grids that supports a variety of printable rendering styles.
+Crossword Grid is a JavaScript component for rendering crossword grids that supports a [variety of printable rendering styles](https://ascottix.github.io/cwgrid/gallery.html).
 
 ## Background
 
@@ -32,6 +32,8 @@ When the grid container has the CSS class `revealed`, it displays the solved gri
 
 <img src="example1_revealed.png" alt="Solved crossword rendered in classic style" width="451">
 
+There are many more classes and variables that allow finer control over the rendered grid, check the [gallery](https://ascottix.github.io/cwgrid/gallery.html) for a list of examples.
+
 ## Schema definition
 
 A crossword schema is a JSON object with the following structure:
@@ -54,7 +56,7 @@ A crossword schema is a JSON object with the following structure:
         'titani',
         'aaa is     1' // This '1' sets the bottom-right corner of the picture
     ],
-    help: { // Help letters are always shown
+    hints: { // Hint letters are always shown
         7: 2, // 2nd letter of the word at 7 horizontal (`R`)
         11: 5 // 5th letter of the word at 11 horizontal (`N`)
     },
@@ -111,9 +113,30 @@ Note that trailing blanks are optional. Shorter lines are automatically padded t
     ]
 ```
 
-Help letters, if defined, are always shown. Help letters are declared as key/value pairs in the `help` attribute using the following convention:
+Hint letters, if defined, are always shown. Hint letters are declared as key/value pairs in the `hints` attribute using the following convention:
 * the key is the number of the horizontal word
 * the value represents the n-th letter of the word identified by the key
+
+### Dividers
+
+Some schemas do not use black cells to separate words, but instead use _dividers_.
+
+There are two types of dividers:
+* a vertical bar, declared with the character `|` (pipe), separates two horizontal words;
+* a horizontal bar, declared with the character `_` (underscore), separates two vertical words.
+
+Dividers are declared *before* the letter they refer to.
+
+For example in the following grid:
+
+```js
+    grid: [
+        '_foo|bar',
+        'kernel',
+    ]
+```
+
+there are three horizontal words (`foo`, `bar`, `arcade`) and only five 2-letter vertical words, because there is a divider between the `f` and the `k`.
 
 ## Acknowledgements
 

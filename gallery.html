@@ -5,6 +5,7 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <title>Crossword Grid demo gallery</title>
     <link rel="stylesheet" type="text/css" href="gallery.css">
     <script src="crossword-grid.js"></script>
@@ -37,6 +38,10 @@
         .linotype .cell {
             box-shadow: none !important;
         }
+
+        .word-search .cell {
+            outline-color: white;
+        }
     </style>
 </head>
 
@@ -45,7 +50,8 @@
     <p>This page showcases some of the styles supported by the <a>Crossword Grid</a> component.</p>
 
     <div class="gallery">
-        <div class="schema modern" data-schema-id="demo3" data-title="Modern, simplified"></div>
+        <div class="schema" data-schema-id="demo8" data-title="With dividers"></div>
+        <div class="schema modern" data-schema-id="demo3" data-title="Modern, with hints"></div>
         <div class="schema" data-schema-id="demo4" data-title="Classic, large"></div>
         <div class="schema modern" data-schema-id="20240811.1" data-title="Diamond"></div>
         <div class="schema" data-schema-id="20240806.1" data-title="With picture"></div>
@@ -54,7 +60,7 @@
         <div class="schema modern hide-numbers linotype" data-schema-id="demo1" data-title="Crossed words"></div>
         <div class="schema syllabic" data-schema-id="demo2" data-title="Syllabic"></div>
         <div class="schema hide-numbers" data-schema-id="demo5" data-title="Hard, lots of hidden stuff"></div>
-        <div class="schema revealed hide-numbers" data-schema-id="demo6" data-title="Word search"></div>
+        <div class="schema revealed hide-numbers word-search" data-schema-id="demo6" data-title="Word search"></div>
         <div class="schema syllabic" data-schema-id="demo7" data-title="Two- and three-letter groups"></div>
     </div>
 
