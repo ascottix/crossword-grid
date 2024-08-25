@@ -30,9 +30,12 @@ const SpChar = Object.freeze({
     EmptyCell: ' ',
     HiddenEmptyCell: '?',
     HoleCell: '.',
+    FillCell: '*',
     NotEmptyRegEx: /[a-z]/i, // Cell contains text
     PlaceholderRegEx: /[0-9]/
 });
+
+const ModeCrypto = 'crypto'; // No definitions, hints, simple substitution cypher
 
 function generateGridHtml(schema) {
     // Splits a grid line definition into cells
@@ -141,7 +144,7 @@ function generateGridHtml(schema) {
 
         for (let y = 0; y < gridHeight; y++) {
             for (let x = 0; x < gridWidth; x++) {
-                if (!isHoleAt(x, y) && (isEmpty(x, y) && !isInPlaceholder(x, y))) {
+                if (!isHoleAt(x, y) && (isEmpty(x, y) && textAt(x, y) != SpChar.FillCell && !isInPlaceholder(x, y))) {
                     if (textAt(x, y) == SpChar.HoleCell || isHoleAt(x - 1, y) || isHoleAt(x + 1, y) || isHoleAt(x, y - 1) || isHoleAt(x, y + 1)) {
                         holeIndex[keyFor(x, y)] = true;
                         found++;
@@ -165,9 +168,50 @@ function generateGridHtml(schema) {
         }
     }
 
-    // Assign numbers and generate the grid
+    // Assign numbers
+    const cellNumberIndex = {};
+    const letterToNumber = {}; // For special mode
+    let currCellNumber = 0;
+
+    for (let y = 0; y < gridHeight; y++) {
+        for (let x = 0; x < gridWidth; x++) {
+            if (!isEmpty(x, y)) {
+                const cellKey = keyFor(x, y);
+
+                if (schema.mode == ModeCrypto) {
+                    const c = textAt(x, y);
+
+                    if (!letterToNumber[c]) {
+                        letterToNumber[c] = ++currCellNumber;
+                    }
+
+                    cellNumberIndex[cellKey] = letterToNumber[c];
+                }
+                else {
+                    const canStartHoriz = isEmpty(x - 1, y) || getCssOfCell(x, y).includes(CssClass.CellHasDividerLeft);
+                    const canEndHoriz = !isEmpty(x + 1, y) && !getCssOfCell(x + 1, y).includes(CssClass.CellHasDividerLeft);;
+                    const canStartVert = isEmpty(x, y - 1) || getCssOfCell(x, y).includes(CssClass.CellHasDividerTop);
+                    const canEndVert = !isEmpty(x, y + 1) && !getCssOfCell(x, y + 1).includes(CssClass.CellHasDividerTop);
+
+                    if ((canStartHoriz && canEndHoriz) || (canStartVert && canEndVert)) {
+                        cellNumberIndex[cellKey] = ++currCellNumber;
+                    }
+                }
+            }
+        }
+    }
+
+    // Reveal hint letters
+    if (schema.hints) {
+        for (const [row, hint] of Object.entries(schema.hints)) {
+            const cols = typeof hint == 'number' ? [hint] : hint;
+
+            cols.forEach(col => addCssToCell(col - 1, row - 1, CssClass.CellContentIsVisible));
+        }
+    }
+
+    // Generate the grid
     const html = [];
-    let cellNumber = 0;
 
     html.push(`<div class="${CssClass.GridContainer}" style="grid-template-columns: repeat(${gridWidth}, var(--cell-size));">`);
 
@@ -181,7 +225,7 @@ function generateGridHtml(schema) {
         for (let x = 0; x < gridWidth; x++) {
             const c = textAt(x, y);
 
-            if(c.length > 1) {
+            if (c.length > 1) {
                 addCssToCell(x, y, `${CssClass.GroupOf}${c.length}`);
             }
 
@@ -190,7 +234,7 @@ function generateGridHtml(schema) {
             const canEndHoriz = !isEmpty(x + 1, y) && !getCssOfCell(x + 1, y).includes(CssClass.CellHasDividerLeft);;
             const canStartVert = isEmpty(x, y - 1) || getCssOfCell(x, y).includes(CssClass.CellHasDividerTop);
             const canEndVert = !isEmpty(x, y + 1) && !getCssOfCell(x, y + 1).includes(CssClass.CellHasDividerTop);
-            const hasNumber = !isEmpty(x, y) && ((canStartHoriz && canEndHoriz) || (canStartVert && canEndVert));
+            const hasNumber = (canStartHoriz && canEndHoriz) || (canStartVert && canEndVert);
 
             if (isEmpty(x, y)) {
                 if (x == placeholderRect.sx && y == placeholderRect.sy) {
@@ -212,22 +256,19 @@ function generateGridHtml(schema) {
                     cell([CssClass.PicturePlaceholer], `style="${styles.join(';')};"`, content, '');
                 } else if (!isInPlaceholder(x, y)) {
                     // Empty cell (word separator)
-                    cell([CssClass.CellIsEmpty, holeIndex[keyFor(x, y)] && CssClass.CellIsHole, c == SpChar.HiddenEmptyCell && CssClass.CellIsEmptyHidden], '', '');
+                    cell([CssClass.CellIsEmpty, ...getCssOfCell(x, y), holeIndex[keyFor(x, y)] && CssClass.CellIsHole, c == SpChar.HiddenEmptyCell && CssClass.CellIsEmptyHidden], '', '');
                 }
-            } else if (hasNumber) {
-                // Numbered cell
-                cellNumber++;
+            }
+            else {
+                currCellNumber = cellNumberIndex[keyFor(x, y)];
 
-                // Check to see if there's some hint (visible text) associated to this number
-                const hint = (schema.hints || {})[cellNumber];
-                if (hint) {
-                    addCssToCell(x + hint - 1, y, CssClass.CellContentIsVisible);
+                if (currCellNumber) {
+                    // Numbered cell
+                    cell([CssClass.CellHasNumber, ...getCssOfCell(x, y)], `data-number=${currCellNumber}`, c);
+                } else {
+                    // Standard cell
+                    cell(getCssOfCell(x, y), '', c);
                 }
-
-                cell([CssClass.CellHasNumber, ...getCssOfCell(x, y)], `data-number=${cellNumber}`, c);
-            } else {
-                // Standard cell
-                cell(getCssOfCell(x, y), '', c);
             }
         }
     }

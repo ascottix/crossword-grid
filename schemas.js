@@ -50,15 +50,12 @@ const Schemas = [
             'dddddddd d d'
         ],
         hints: {
-            12: 3,
-            18: 6,
-            19: 3,
-            21: 2,
-            24: 3,
-            26: 4,
-            31: 5,
-            33: 3,
-            36: 2
+            3: 5,
+            4: [8, 12],
+            5: 4,
+            7: [3, 10],
+            9: 6,
+            10: 2
         }
     }, {
         id: "demo4",
@@ -94,8 +91,8 @@ const Schemas = [
             'aaaaa?a?a'
         ],
         hints: {
-            9: 2,
-            26: 3
+            2: 8,
+            11: 4
         }
     }, {
         id: "demo6",
@@ -152,6 +149,69 @@ const Schemas = [
             'aaaa_a_aaaa|aaaa|aaaa|a',
             'aaaaaaa|aaaaaaaaa|aa'
         ]
+    }, {
+        id: "demo9",
+        mode: 'crypto',
+        grid: [
+            "ruwxaex ksvaa",
+            "fkfzxzl  hitb",
+            "zare   fw ckc",
+            "metide obyftd",
+            "xl  fydvnmgo ",
+            "i jjhsostiaya",
+            " aexkmjvowrm",
+            "mzydestfxns w",
+            "lkvlso c i jg",
+            " wycwim dwdkk",
+            " zfiwuri  kws",
+            "  r gvxbgaxu",
+        ],
+        hints: {
+            1: 13,
+            2: 13,
+            3: 13,
+            4: 13
+        }
+    }, {
+        id: "demo10",
+        grid: [
+            'aaaaaaaa aaaa',
+            'a a a a a a a',
+            'aaaaa aaaaaaa',
+            'a a a a a a a',
+            ' aaaaaaaaaaaa',
+            'a a a a a   a',
+            'aaaaaa aaaaaa',
+            'a   a a a a a',
+            'aaaaaaaaaaaa ',
+            'a a a a a a a',
+            'aaaaaaa aaaaa',
+            'a a a a a a a',
+            'aaaa aaaaaaaa'
+        ]
+    }, {
+        id: "demo11",
+        grid: [
+            'aaaaaaaaa.aaaaaaaaa.aaaaaaaaa',
+            'aaaaaaaaa.aaaaaaaaa.aaaaaaaaa',
+            'aaaaaaaaa.aaaaaaaaa.aaa aaaaL',
+            '*aaaLa aa.aaa aaBaa.*aaaaaaaa',
+            'aaaaaaaaa.aaaaaaaaa.aaaaaaaa*',
+            'aaaa aaaa.aaaaaaaaa.aaaaaaaaa',
+            'aaaaaaaaa.aaaaaaaa*.aaaaaaaaa',
+            'aaaaaaaaaaaaaaaaaaaaaaaaaaaa*',
+            'aaaaaa aa.aaaaaa aa.aaaaaaaaa',
+            'aaaaaaKa*.aaaaaaaaa.aaaaaaaaa',
+            'aaaaaaaaa.aaaaaaaaa.aaaaaaaaa',
+            'aaaaaaaaa.aaaaa aaD.Taaaaaaaa',
+            'aaaaaaaaa.aaaaaaaaa.aaaaaaaaa',
+        ],
+        hints: {
+            3: 29,
+            4: [5, 17],
+            10: 7,
+            12: [19, 21]
+        }
     }, {
         author: {
             name: 'Alessandro Scotti',

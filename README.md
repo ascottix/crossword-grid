@@ -57,8 +57,8 @@ A crossword schema is a JSON object with the following structure:
         'aaa is     1' // This '1' sets the bottom-right corner of the picture
     ],
     hints: { // Hint letters are always shown
-        7: 2, // 2nd letter of the word at 7 horizontal (`R`)
-        11: 5 // 5th letter of the word at 11 horizontal (`N`)
+        3: 2, // 3rd row from top, 2nd cell
+        6: [1, 2, 3] // 1st, 2nd and 3rd cell of the 6th row
     },
     picture: 'wanda.jpg', // URL of picture to embed in the schema
     definitions: { // Word definitions, horizontal and vertical
@@ -94,7 +94,8 @@ By default, there is one letter per cell. To create groups of letters, use the '
 
 Black cells (word separators) are represented with '` `' (a space). It is also possible to use:
 * '`.`' (a dot), it means that in the _modern_ style it will be rendered as a hole;
-* '`?`' (a question mark), it means that the black cells is blank until _revealed_.
+* '`?`' (a question mark), it means that the black cells is blank until _revealed_;
+* '`*`' (a star), it represents a standard black cell (won't become a hole).
 
 You can embed a picture in the schema, by defining a _placeholder area_. A placeholder area is a rectangle delimited by a '`1`' (the digit _one_) in the upper left corner and another '`1`' in the lower right corner. The rest of the area must be filled with blanks.
 
@@ -137,6 +138,20 @@ For example in the following grid:
 ```
 
 there are three horizontal words (`foo`, `bar`, `arcade`) and only five 2-letter vertical words, because there is a divider between the `f` and the `k`.
+
+### Encrypted crosswords
+
+In this mode there are no definitions and each letter is assigned a different number, for example b=1, a=2, r=3, and so on. Numbers are assigned to letters on a first-come first-served basis, scanning the grid from the top left corner.
+
+All numbers are shown, and usually a short word is revealed at the beginning, so that there is some information to solve the schema. Check the [gallery](https://ascottix.github.io/cwgrid/gallery.html) to see how such a schema looks like.
+
+To enable this mode, add:
+
+```js
+    mode: 'crypto'
+```
+
+to the schema definition.
 
 ## Acknowledgements
 

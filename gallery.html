@@ -42,6 +42,30 @@
         .word-search .cell {
             outline-color: white;
         }
+
+        .crypto .cell.revealed {
+            padding-top: 0.4em;
+        }
+
+        .american .cell.empty {
+            border-color: black;
+        }
+
+        .triple .grid-container {
+            --cell-fill-color: black;
+        }
+
+        .triple .cell:nth-child(n+204):nth-child(-n+231){
+            background-color: lightgray;
+        }
+
+        .triple .cell.empty.bl {
+            box-shadow: inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * -1) 0 0 1px var(--grid-border-color)
+        }
+
+        .triple .cell.empty.br {
+            box-shadow: inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * 1) 0 0 1px var(--grid-border-color)
+        }
     </style>
 </head>
 
@@ -50,9 +74,10 @@
     <p>This page showcases some of the styles supported by the <a>Crossword Grid</a> component.</p>
 
     <div class="gallery">
-        <div class="schema" data-schema-id="demo8" data-title="With dividers"></div>
         <div class="schema modern" data-schema-id="demo3" data-title="Modern, with hints"></div>
         <div class="schema" data-schema-id="demo4" data-title="Classic, large"></div>
+        <div class="schema crypto" data-schema-id="demo9" data-title="Encrypted"></div>
+        <div class="schema" data-schema-id="demo8" data-title="With dividers"></div>
         <div class="schema modern" data-schema-id="20240811.1" data-title="Diamond"></div>
         <div class="schema" data-schema-id="20240806.1" data-title="With picture"></div>
         <div class="schema revealed hide-numbers" data-schema-id="20240809.1v2" data-title="Solution"></div>
@@ -62,6 +87,8 @@
         <div class="schema hide-numbers" data-schema-id="demo5" data-title="Hard, lots of hidden stuff"></div>
         <div class="schema revealed hide-numbers word-search" data-schema-id="demo6" data-title="Word search"></div>
         <div class="schema syllabic" data-schema-id="demo7" data-title="Two- and three-letter groups"></div>
+        <div class="schema american" data-schema-id="demo10" data-title="American style"></div>
+        <div class="schema triple modern hide-numbers" data-schema-id="demo11" data-title="Triple connected, hard"></div>
     </div>
 
     <script>

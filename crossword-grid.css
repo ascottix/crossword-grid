@@ -13,6 +13,7 @@
     --number-pos-y: 0;
     --grid-border-size: 2px;
     --grid-border-color: black;
+    --cell-fill-color: black;
     /* Precompute longer expressions and isolate use of round() */
     --cw-b-of2: round(up, calc(var(--grid-border-size) / 2), 1px);
     --cw-b-sz2: round(up, calc((var(--grid-border-size) + 1px) / 2), 1px);
@@ -71,7 +72,7 @@
 .cell.empty {
     border: var(--cell-empty-padding) solid white;
     /* Use box-shadow because background is not printable */
-    box-shadow: inset 0 0 var(--cell-size) var(--cell-size) black;
+    box-shadow: inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color);
     box-sizing: border-box;
 }
 
@@ -116,14 +117,11 @@
 
 /* In the modern style, the grid outline is resolved at the cell level */
 .modern .grid-container {
+    --cell-fill-color: green;
+
     border: none;
     /* Add padding to compensate for the outline (which goes outside the grid) */
     padding: calc(var(--grid-border-size) + 1px) 0 0 calc(var(--grid-border-size) + 1px);
-}
-
-.modern-fill .cell.empty,
-.modern .cell.empty {
-    box-shadow: inset 0 0 var(--cell-size) var(--cell-size) green;
 }
 
 .modern .cell.empty.hole {
