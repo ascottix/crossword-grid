@@ -31,8 +31,8 @@ const SpChar = Object.freeze({
     HiddenEmptyCell: '?',
     HoleCell: '.',
     FillCell: '*',
-    NotEmptyRegEx: /[a-z]/i, // Cell contains text
-    PlaceholderRegEx: /[0-9]/
+    NotEmptyRegEx: /[a-z0-9]/i, // Cell contains text
+    PlaceholderRegEx: /[()]/,
 });
 
 const ModeCrypto = 'crypto'; // No definitions, hints, simple substitution cypher
@@ -83,7 +83,7 @@ function generateGridHtml(schema) {
                     addCssToCell(x, y + 1, CssClass.CellHasDividerTop);
                 }
                 // Remove divider special character and stay in place
-                line.splice(x, 1).join('');
+                line.splice(x, 1);
                 x--;
             }
         }
@@ -186,10 +186,9 @@ function generateGridHtml(schema) {
                     }
 
                     cellNumberIndex[cellKey] = letterToNumber[c];
-                }
-                else {
+                } else {
                     const canStartHoriz = isEmpty(x - 1, y) || getCssOfCell(x, y).includes(CssClass.CellHasDividerLeft);
-                    const canEndHoriz = !isEmpty(x + 1, y) && !getCssOfCell(x + 1, y).includes(CssClass.CellHasDividerLeft);;
+                    const canEndHoriz = !isEmpty(x + 1, y) && !getCssOfCell(x + 1, y).includes(CssClass.CellHasDividerLeft);
                     const canStartVert = isEmpty(x, y - 1) || getCssOfCell(x, y).includes(CssClass.CellHasDividerTop);
                     const canEndVert = !isEmpty(x, y + 1) && !getCssOfCell(x, y + 1).includes(CssClass.CellHasDividerTop);
 
@@ -229,13 +228,6 @@ function generateGridHtml(schema) {
                 addCssToCell(x, y, `${CssClass.GroupOf}${c.length}`);
             }
 
-            // Check to see if this cell should be numbered
-            const canStartHoriz = isEmpty(x - 1, y) || getCssOfCell(x, y).includes(CssClass.CellHasDividerLeft);
-            const canEndHoriz = !isEmpty(x + 1, y) && !getCssOfCell(x + 1, y).includes(CssClass.CellHasDividerLeft);;
-            const canStartVert = isEmpty(x, y - 1) || getCssOfCell(x, y).includes(CssClass.CellHasDividerTop);
-            const canEndVert = !isEmpty(x, y + 1) && !getCssOfCell(x, y + 1).includes(CssClass.CellHasDividerTop);
-            const hasNumber = (canStartHoriz && canEndHoriz) || (canStartVert && canEndVert);
-
             if (isEmpty(x, y)) {
                 if (x == placeholderRect.sx && y == placeholderRect.sy) {
                     // The placeholder area goes inside a single cell
@@ -258,8 +250,7 @@ function generateGridHtml(schema) {
                     // Empty cell (word separator)
                     cell([CssClass.CellIsEmpty, ...getCssOfCell(x, y), holeIndex[keyFor(x, y)] && CssClass.CellIsHole, c == SpChar.HiddenEmptyCell && CssClass.CellIsEmptyHidden], '', '');
                 }
-            }
-            else {
+            } else { // Not empty
                 currCellNumber = cellNumberIndex[keyFor(x, y)];
 
                 if (currCellNumber) {

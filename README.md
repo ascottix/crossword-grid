@@ -6,13 +6,13 @@ Crossword Grid is a JavaScript component for rendering crossword grids that supp
 
 I was looking for a small, weekend-size project that would let me play a bit with CSS grids and eventually settled on rendering crossword grids, in particular with the styles used by the [most famous Italian magazine](https://www.lasettimanaenigmistica.com/).
 
-The resulting component is relatively simple (supporting the _modern_ style introduced some complications) but gets the job done nicely and indeed using CSS grids was fun and instructive.
+The resulting component is relatively simple but gets the job done nicely and indeed using CSS grids was fun and instructive.
 
 ## Usage
 
 Just call the function `generateGridHtml()` with a schema definition as a parameter, and put the generated HTML somewhere in your page. Together with the component's CSS, it will render the schema grid.
 
-Indeed, this is practical only in very simple scenarios. In larger projects, the above should be wrapped in a "real" component, and the CSS scoped.
+This is practical only in very simple scenarios. In larger projects, the above should be wrapped in a "real" component, and the CSS scoped.
 
 ### Rendering options
 
@@ -49,12 +49,12 @@ A crossword schema is a JSON object with the following structure:
     id: "1", // Schema identifier (e.g. a progressive number)
     created: "20240809", // Creation date (and optionally time) in ISO 8601 format
     grid: [ // Grid definition
-        'pesaro1', // This '1' marks the upper-left corner of the picture placeholder
+        'pesaro(', // This '(' marks the upper-left corner of the picture placeholder
         'aramis', // Trailing blanks are optional
         'genomi',
         'asi ir',
         'titani',
-        'aaa is     1' // This '1' sets the bottom-right corner of the picture
+        'aaa is     )' // This ')' sets the bottom-right corner of the picture
     ],
     hints: { // Hint letters are always shown
         3: 2, // 3rd row from top, 2nd cell
@@ -97,7 +97,7 @@ Black cells (word separators) are represented with '` `' (a space). It is also p
 * '`?`' (a question mark), it means that the black cells is blank until _revealed_;
 * '`*`' (a star), it represents a standard black cell (won't become a hole).
 
-You can embed a picture in the schema, by defining a _placeholder area_. A placeholder area is a rectangle delimited by a '`1`' (the digit _one_) in the upper left corner and another '`1`' in the lower right corner. The rest of the area must be filled with blanks.
+You can embed a picture in the schema, by defining a _placeholder area_ for it. A placeholder area is a rectangle delimited by a '`(`' (open round parenthesis) in the upper left corner and a '`)`' (closed round parenthesis) in the lower right corner. The rest of the area must be filled with blanks.
 
 If defined, the placeholder area is filled with the picture specified in the `picture` attribute.
 
@@ -105,18 +105,27 @@ Note that trailing blanks are optional. Shorter lines are automatically padded t
 
 ```js
     grid: [
-        'pesaro1     ',
+        'pesaro(     ',
         'aramis      ',
         'genomi      ',
         'asi ir      ',
         'titani      ',
-        'aaa is     1'
+        'aaa is     )'
     ]
 ```
 
 Hint letters, if defined, are always shown. Hint letters are declared as key/value pairs in the `hints` attribute using the following convention:
-* the key is the number of the horizontal word
-* the value represents the n-th letter of the word identified by the key
+* the key is the row number (counting from top)
+* the value is the column number (counting from left)
+
+For example:
+
+```js
+    hints: {
+        2: 8, // 2nd row from top, 8th cell from left
+        11: 4 // 11th row from top, 4th cell from left
+    }
+```
 
 ### Dividers
 
@@ -138,6 +147,8 @@ For example in the following grid:
 ```
 
 there are three horizontal words (`foo`, `bar`, `arcade`) and only five 2-letter vertical words, because there is a divider between the `f` and the `k`.
+
+Dividers can be used in creative ways, check for example Mosaic and Sudoku in the [gallery](https://ascottix.github.io/cwgrid/gallery.html).
 
 ### Encrypted crosswords
 

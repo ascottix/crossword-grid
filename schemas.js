@@ -213,6 +213,46 @@ const Schemas = [
             12: [19, 21]
         }
     }, {
+        id: "demo12",
+        grid: [
+            'aa|a|a|a_a|a_a_a',
+            '_a|_a_a|a|a|a|_a_a_a',
+            'a_a_a|a|a|a|_a_aa',
+            'a|a|a|a|a|a|a_a_a',
+            '_a|_a_a|_a|a|a|_a_a_a',
+            'a_a_a_a|_a|_a_aa|a',
+            '_a_a_a_a_a|a_a|_a_a',
+            'a_a_a_a_a|_a_a_aa',
+            'a|_a_a_a_aa|a|_a_a',
+            'a|_a_aa|_a_a|_a_aa',
+            'a|a_a|_a_a|_aa|a_a',
+            'a|aaa|aaa|aa'
+        ]
+    }, {
+        id: "demo13",
+        grid: [
+            '132|574|896',
+            '897|163|524',
+            '_5_6_4|_9_8_2|_3_1_7',
+            '725|619|483',
+            '689|345|271',
+            '_3_4_1|_7_2_8|_6_5_9',
+            '956|837|142',
+            '218|496|735',
+            '473|251|968'
+        ],
+        hints: {
+            1: [1, 4, 7],
+            2: [3, 8],
+            3: [2, 5, 9],
+            4: [1, 4, 6],
+            5: [3, 7],
+            6: [4, 6, 9],
+            7: [1, 5, 8],
+            8: [2, 7],
+            9: [3, 6, 9]
+        }
+    }, {
         author: {
             name: 'Alessandro Scotti',
             moniker: 'A. Scotti'
@@ -228,7 +268,7 @@ const Schemas = [
             'irate perito suez',
             'tata musica mogli',
             'oto casino canale',
-            '1       a cloaca ',
+            '(       a cloaca ',
             '         tratte b',
             '        mousse fr',
             '        elise giu',
@@ -237,7 +277,7 @@ const Schemas = [
             '        na sbafo ',
             '        i aiuto o',
             '        micosi ex',
-            '       1operosita'
+            '       )operosita'
         ],
         picture: 'anstett.jpg',
         picture_alt: 'Dorothy Anstett'
@@ -257,7 +297,7 @@ const Schemas = [
             ' metodo fetido ps',
             'gonadi monili cam',
             'atona karate xeno',
-            'sino borg1',
+            'sino borg(',
             'ove ramai',
             'lo revoca',
             'i seceda ',
@@ -266,7 +306,7 @@ const Schemas = [
             'prete pub',
             'rino ciac',
             'ott scena',
-            'maelstrom       1'
+            'maelstrom       )'
         ],
         picture: 'anstett.jpg',
         picture_alt: 'Dorothy Anstett'
@@ -280,12 +320,12 @@ const Schemas = [
         id: "20240809.1",
         created: "20240809",
         grid: [
-            'pesaro1',
+            'pesaro(',
             'aramis',
             'genomi',
             'asi ir',
             'titani',
-            'aaa is     1'
+            'aaa is     )'
         ],
         hints: {
             7: 2,
@@ -303,12 +343,12 @@ const Schemas = [
         id: "20240809.1v2",
         created: "20240809",
         grid: [
-            'pesato1',
+            'pesato(',
             'aramis',
             'genomi',
             'asi or',
             'titani',
-            'aaa es     1'
+            'aaa es     )'
         ],
         hints: {
             7: 2,
