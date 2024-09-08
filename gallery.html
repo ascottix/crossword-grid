@@ -17,7 +17,8 @@
             background: lightgray;
         }
 
-        h1, p {
+        h1,
+        p {
             text-align: center;
         }
 
@@ -44,27 +45,157 @@
         }
 
         .crypto .cell.revealed {
-            padding-top: 0.4em;
+            text-transform: lowercase;
+            padding-top: 0.3em;
         }
 
         .american .cell.empty {
-            border-color: black;
+            box-shadow: inset 0 0 var(--cell-size) var(--cell-size) black;
         }
 
-        .triple .grid-container {
-            --cell-fill-color: black;
+        #demo11 {
+            .grid-container {
+                --cell-fill-color: black;
+            }
+
+            .cell:nth-child(n+204):nth-child(-n+231) {
+                background-color: lightgray;
+            }
+
+            .cell.empty.bl {
+                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * -1) 0 0 1px var(--grid-border-color)
+            }
+
+            .cell.empty.br {
+                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * 1) 0 0 1px var(--grid-border-color)
+            }
         }
 
-        .triple .cell:nth-child(n+204):nth-child(-n+231){
+        .columns .cell:nth-child(3n-1) {
             background-color: lightgray;
         }
 
-        .triple .cell.empty.bl {
-            box-shadow: inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * -1) 0 0 1px var(--grid-border-color)
+        .crosspath .cell {
+            font-style: italic;
+            text-align: left;
+            padding: 0.1em 0 0 0.3em;
         }
 
-        .triple .cell.empty.br {
-            box-shadow: inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * 1) 0 0 1px var(--grid-border-color)
+        #demo14 .cell:nth-child(5) {
+            color: #EE2222;
+        }
+
+        #demo18 {
+            .cell:nth-child(2)::before {
+                content: '→';
+                position: absolute;
+                left: -1.2em;
+                top: -0.1em;
+                font-size: 140%;
+            }
+
+            .cell:nth-child(n+15):nth-child(-n+21),
+            .cell:nth-child(n+29):nth-child(-n+35),
+            .cell:nth-child(n+43):nth-child(-n+49) {
+                background-color: lightgray;
+            }
+        }
+
+        #demo19 {
+
+            .cell:nth-child(24)::after,
+            .cell:nth-child(33)::after {
+                content: ',';
+                position: absolute;
+                left: 0.7em;
+                font-size: 140%;
+                color: black;
+            }
+
+            .cell:nth-child(33)::after {
+                content: '`';
+                top: 0.05em;
+            }
+        }
+
+        #demo20 {
+
+            .cell:nth-child(10)::after,
+            .cell:nth-child(12)::after,
+            .cell:nth-child(24)::after,
+            .cell:nth-child(26)::after,
+            .cell:nth-child(38)::after,
+            .cell:nth-child(40)::after,
+            .cell:nth-child(51)::after,
+            .cell:nth-child(53)::after,
+            .cell:nth-child(55)::after,
+            .cell:nth-child(65)::after,
+            .cell:nth-child(67)::after,
+            .cell:nth-child(69)::after,
+            .cell:nth-child(79)::after,
+            .cell:nth-child(81)::after,
+            .cell:nth-child(83)::after {
+                position: absolute;
+                font-size: 120%;
+                color: black;
+                z-index: 9;
+            }
+
+            .cell:nth-child(10)::after,
+            .cell:nth-child(26)::after,
+            .cell:nth-child(40)::after,
+            .cell:nth-child(69)::after,
+            .cell:nth-child(81)::after {
+                content: '↑';
+                top: 0.6em;
+                left: 0.25em;
+            }
+
+            .cell:nth-child(12)::after,
+            .cell:nth-child(38)::after,
+            .cell:nth-child(65)::after,
+            .cell:nth-child(67)::after {
+                content: '↓';
+                top: -0.6em;
+                left: 0.25em;
+            }
+
+            .cell:nth-child(24)::after {
+                content: '→';
+                left: -0.5em;
+            }
+
+            .cell:nth-child(55)::after {
+                content: '←';
+                right: -0.5em;
+            }
+
+            .cell:nth-child(51)::after {
+                content: '↘';
+                top: -0.6em;
+                left: -0.5em;
+            }
+
+            .cell:nth-child(53)::after {
+                content: '↘';
+                top: -0.6em;
+                right: -0.5em;
+                transform: rotate(90deg);
+            }
+
+            .cell:nth-child(79)::after {
+                content: '↘';
+                top: 0.6em;
+                left: -0.5em;
+                transform: rotate(-90deg);
+            }
+
+            .cell:nth-child(83)::after {
+                content: '↘';
+                top: 0.6em;
+                right: -0.5em;
+                transform: rotate(180deg);
+            }
         }
     </style>
 </head>
@@ -74,23 +205,31 @@
     <p>This page showcases some of the styles supported by the <a>Crossword Grid</a> component.</p>
 
     <div class="gallery">
-        <div class="schema hide-numbers" data-schema-id="demo12" data-title="Mosaic"></div>
-        <div class="schema modern" data-schema-id="demo3" data-title="Modern, with hints"></div>
-        <div class="schema" data-schema-id="demo4" data-title="Classic, large"></div>
-        <div class="schema crypto" data-schema-id="demo9" data-title="Encrypted"></div>
-        <div class="schema" data-schema-id="demo8" data-title="With dividers"></div>
-        <div class="schema modern" data-schema-id="20240811.1" data-title="Diamond"></div>
-        <div class="schema" data-schema-id="20240806.1" data-title="With picture"></div>
-        <div class="schema revealed hide-numbers" data-schema-id="20240809.1v2" data-title="Solution"></div>
-        <div class="schema modern dark" data-schema-id="20240810.1" data-title="Dark modern"></div>
-        <div class="schema modern hide-numbers linotype" data-schema-id="demo1" data-title="Crossed words"></div>
-        <div class="schema syllabic" data-schema-id="demo2" data-title="Syllabic"></div>
-        <div class="schema hide-numbers" data-schema-id="demo5" data-title="Hard, lots of hidden stuff"></div>
-        <div class="schema revealed hide-numbers word-search" data-schema-id="demo6" data-title="Word search"></div>
-        <div class="schema syllabic" data-schema-id="demo7" data-title="Two- and three-letter groups"></div>
-        <div class="schema american" data-schema-id="demo10" data-title="American style"></div>
-        <div class="schema hide-numbers" data-schema-id="demo13" data-title="Sudoku"></div>
-        <div class="schema triple modern hide-numbers" data-schema-id="demo11" data-title="Triple connected, hard"></div>
+        <div class="schema" id="demo4" data-title="Classic, large"></div>
+        <div class="schema crypto" id="demo9" data-title="Encrypted"></div>
+        <div class="schema" id="demo19" data-title="Nucleus"></div>
+        <div class="schema hide-numbers" id="demo12" data-title="Mosaic"></div>
+        <div class="schema modern" id="demo3" data-title="Modern, with hints"></div>
+        <div class="schema" id="demo8" data-title="With dividers"></div>
+        <div class="schema modern" id="20240811.1" data-title="Diamond"></div>
+        <div class="schema" id="20240806.1" data-title="With picture"></div>
+        <div class="schema revealed hide-numbers" id="20240809.1v2" data-title="Solution"></div>
+        <div class="schema" id="demo16" data-title="Caleidoscope"></div>
+        <div class="schema modern dark" id="20240810.1" data-title="Dark modern"></div>
+        <div class="schema modern hide-numbers linotype" id="demo1" data-title="Crossed words"></div>
+        <div class="schema syllabic" id="demo2" data-title="Syllabic"></div>
+        <div class="schema hide-numbers" id="demo5" data-title="Hard, lots of hidden stuff"></div>
+        <div class="schema modern hide-numbers" id="demo18" data-title="The circuit"></div>
+        <div class="schema revealed hide-numbers word-search" id="demo6" data-title="Word search"></div>
+        <div class="schema syllabic" id="demo7" data-title="Two- and three-letter groups"></div>
+        <div class="schema columns" id="demo17" data-title="Colonnade"></div>
+        <div class="schema american" id="demo10" data-title="American style"></div>
+        <div class="schema hide-numbers" id="demo13" data-title="Sudoku"></div>
+        <div class="schema crosspath hide-numbers" id="demo14" data-title="Crosspath"></div>
+        <div class="schema modern hide-numbers" id="demo15" data-title="Fill the grid"></div>
+        <div class="schema modern hide-numbers" id="demo20" data-title="Inner cells"></div>
+        <div class="schema modern hide-numbers" id="demo11" data-title="Triple connected, hard">
+        </div>
     </div>
 
     <script>

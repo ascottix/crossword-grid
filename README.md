@@ -1,6 +1,6 @@
 # Crossword Grid
 
-Crossword Grid is a JavaScript component for rendering crossword grids that supports a [variety of printable rendering styles](https://ascottix.github.io/cwgrid/gallery.html).
+Crossword Grid is a JavaScript component for rendering crossword grids that supports a [variety of printable rendering styles](https://ascottix.github.io/cwgrid/gallery.html) and can be easily customized for more.
 
 ## Background
 
@@ -159,10 +159,23 @@ All numbers are shown, and usually a short word is revealed at the beginning, so
 To enable this mode, add:
 
 ```js
-    mode: 'crypto'
+    numbers: 'crypto'
 ```
 
 to the schema definition.
+
+### Numbering
+
+It's possibile to bypass the automatic numbering algorithms (standard and crypto) and assign a custom number to each cell. To do this, specify a `numbers` attribute in the schema with the following format:
+
+```js
+    numbers: {
+        1: [1,,,,,2], // 1st row: assign 1 to the first cell, 2 to the sixth cell of this row
+        2: [,,3,,,,,,4], // 2nd row: assign 3 to the 3rd cell, 4 to the 9th cell of this row
+        3: [,,,,,,5], // 3rd row_ assign 5 to the 7th cell of this row
+        4: [,,6], // 4th row: assign 6 to the 3rd cell of this row
+    }
+```
 
 ## Acknowledgements
 
@@ -171,6 +184,8 @@ The picture [wanda.jpg](https://commons.wikimedia.org/wiki/File:Wanda_Osiris.jpg
 The picture [anstett.jpg](https://commons.wikimedia.org/wiki/File:Dorothy_Anstett,_Miss_USA,_1968-bluish_tint_fix_attempt.jpg) is No Known Copyright Restrictions from Wikimedia Commons.
 
 [Parolecon IT](https://www.parolecon.it/) is a fantastic tool for solving and composing crossword puzzles in many languages!
+
+[Enigmistica PIÙ](https://www.cairoeditore.it/periodico/enigmistica-pi%C3%B9) is another Italian magazine with many interesting crossword puzzles. I enjoyed implementing some nice grids from there.
 
 ## License
 

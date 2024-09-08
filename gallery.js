@@ -5,8 +5,8 @@
 
     Demo gallery
 */
-function createSchema(element) {
-    const id = element.getAttribute('data-schema-id');
+function createGallerySchema(element) {
+    const id = element.getAttribute('id');
     const schema = Schemas.filter(s => s.id == id)[0];
     const title = element.getAttribute('data-title');
 
@@ -22,7 +22,7 @@ function createSchema(element) {
 }
 
 function populateGallery() {
-    const elements = document.querySelectorAll('[data-schema-id]');
+    const elements = document.querySelectorAll('.schema');
 
-    elements.forEach(element => createSchema(element));
+    elements.forEach(element => createGallerySchema(element));
 }
