@@ -81,6 +81,19 @@
             padding: 0.1em 0 0 0.3em;
         }
 
+        .sudoproverb .cell::before {
+            font-family: serif;
+            text-transform: uppercase;
+        }
+
+        .sudoproverb .cell.revealed {
+            padding-top: 0.3em;
+        }
+
+        .sudoproverb .cell.hole {
+            height: 0.7em;
+        }
+
         #demo14 .cell:nth-child(5) {
             color: #EE2222;
         }
@@ -228,6 +241,8 @@
         <div class="schema crosspath hide-numbers" id="demo14" data-title="Crosspath"></div>
         <div class="schema modern hide-numbers" id="demo15" data-title="Fill the grid"></div>
         <div class="schema modern hide-numbers" id="demo20" data-title="Inner cells"></div>
+        <div class="schema modern sudoproverb" id="demo21" data-title="Proverb sudoku"></div>
+        <div class="schema" id="demo22" data-title="With core"></div>
         <div class="schema modern hide-numbers" id="demo11" data-title="Triple connected, hard">
         </div>
     </div>

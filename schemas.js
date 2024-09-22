@@ -411,7 +411,7 @@ const Schemas = [
             ' a|_a|a|_a|a ',
             'aa_aa_aaa',
             ' a|_a|a|_a|a ',
-            'a_aZ_aa_aa',
+            'a_aW_aa_aa',
             'a|_a|a|_a|a|_a|a',
             'a_aa_aa_aa',
             'a|_a|a|_a|a|_a|a',
@@ -421,6 +421,76 @@ const Schemas = [
         ],
         hints: {
             7: 3
+        }
+    }, {
+        id: "demo21",
+        author: {
+            name: 'Alessandro Scotti',
+            moniker: 'A. Scotti'
+        },
+        license: "CC-BY-SA-4.0",
+        lang: "EN",
+        created: "20240914",
+        grid: [
+            '124|563',
+            '_6_3_5|_4_1_2',
+            '562|134',
+            '_4_1_3|_6_2_5',
+            '256|341',
+            '341|256',
+            '......',
+            'aaa|aaa',
+            '_a_a_a|_a_a_a',
+            'aaa|aaa',
+            '_a_a_a|_a_a_a',
+            'aaa|aaa',
+            'aaa|aaa',
+        ],
+        hints: {
+            1: [1, 2, , 4, , 6],
+            3: [1, 5],
+            4: [2, 5],
+            5: [4, 5, 6],
+            6: [1, 3]
+        },
+        numbers: {
+            1: ['A', 'C', 'I', 'L', 'Y', 'N'],
+            2: ['O', 'H', 'S', 'N', 'A', 'I'],
+            3: ['G', 'A', 'S', 'T', 'O', 'S'],
+            4: ['N', 'A', 'S', 'T', 'R', 'I'],
+            5: ['W', 'T', 'L', 'E', 'I', 'A'],
+            6: ['E', 'S', 'S', 'K', 'N', 'K'],
+            8: [1, 2, 3, 1, 2, 3],
+            9: [4, 5, 6, 4, 5, 6],
+            10: [1, 2, 3, 1, 2, 3],
+            11: [4, 5, 6, 4, 5, 6],
+            12: [1, 2, 3, 1, 2, 3],
+            13: [4, 5, 6, 4, 5, 6]
+        },
+        notes: "Solve the sudoku, then copy the letters corresponding to the solution numbers in the grid below. You will get a proverb."
+    }, {
+        id: "demo22",
+        grid: [
+            'aaaaaaa a aaaaaaa',
+            'aaaaaaaaa aaaaaaa',
+            'aa aaaaaaaaaa a a',
+            'aaa  _a_a_a_a_a_a_aaaaaa',
+            'aa aa|aaaaaa_a| a a ',
+            ' aa a|aaaaaa|a|aaaaa',
+            'aaaaa|aaaaa|aa|aaaaa',
+            ' aaaa|aaaaa|aa|aaaaa',
+            'aaa a|_a_a_a_a_a|_a_a|aaaaa',
+            'aaaa  a a aa aaa ',
+            'aaaaaaaaaaa aaa a',
+            'aaaaaaaaaa aaaaaa',
+            'aa aaaaaaaaaa aaa'
+        ],
+        numbers: {
+            5: [,,,,,1,2,3,4,5,6],
+            6: [,,,,,7,,,,,,8],
+            7: [,,,,,9,,,,,10],
+            8: [,,,,,11,,,,,12],
+            9: [,,,,,13,,,,,14]
         }
     }, {
         author: {
