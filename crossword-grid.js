@@ -170,15 +170,20 @@ function generateGridHtml(schema) {
 
     // Assign numbers
     const cellNumberIndex = {};
-    const letterToNumber = {}; // For special mode
+    const letterToNumber = {}; // For crypto mode
     let currCellNumber = 0;
 
     for (let y = 0; y < gridHeight; y++) {
         for (let x = 0; x < gridWidth; x++) {
-            if (!isEmpty(x, y)) {
-                const cellKey = keyFor(x, y);
+            const cellKey = keyFor(x, y);
 
-                if (schema.mode == ModeCrypto) {
+            if(typeof schema.numbers == 'object') { // Custom numbering
+                const rowNums = schema.numbers[y+1];
+
+                cellNumberIndex[cellKey] = rowNums && rowNums[x];
+            }
+            else if (!isEmpty(x, y)) {
+                if (schema.numbers == ModeCrypto) {
                     const c = textAt(x, y);
 
                     if (!letterToNumber[c]) {
@@ -186,7 +191,7 @@ function generateGridHtml(schema) {
                     }
 
                     cellNumberIndex[cellKey] = letterToNumber[c];
-                } else {
+                } else { // Standard numbering
                     const canStartHoriz = isEmpty(x - 1, y) || getCssOfCell(x, y).includes(CssClass.CellHasDividerLeft);
                     const canEndHoriz = !isEmpty(x + 1, y) && !getCssOfCell(x + 1, y).includes(CssClass.CellHasDividerLeft);
                     const canStartVert = isEmpty(x, y - 1) || getCssOfCell(x, y).includes(CssClass.CellHasDividerTop);

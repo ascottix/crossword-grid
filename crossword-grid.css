@@ -7,7 +7,7 @@
     --cell-size: 1.5em;
     --cell-height: calc(var(--cell-size) / 1);
     /* Use a factor > 1 to create rectangular cells */
-    --cell-empty-padding: calc(var(--cell-height) / 12.5);
+    --cell-empty-padding: calc(var(--cell-height) / 15);
     --number-font-size: calc(var(--cell-height) / 3);
     --number-pos-x: 2px;
     --number-pos-y: 0;
@@ -70,9 +70,11 @@
 
 .revealed .cell.empty.hidden,
 .cell.empty {
-    border: var(--cell-empty-padding) solid white;
+    /* border: var(--cell-empty-padding) solid white; */
     /* Use box-shadow because background is not printable */
-    box-shadow: inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color);
+    /* inset 0px 0px 0px 2px white, inset 0px 0px var(--cell-size) var(--cell-size) var(--cell-fill-color) */
+    box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color);
+    /* box-shadow: inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color); */ */
     box-sizing: border-box;
 }
 

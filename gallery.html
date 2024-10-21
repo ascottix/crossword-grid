@@ -53,24 +53,6 @@
             box-shadow: inset 0 0 var(--cell-size) var(--cell-size) black;
         }
 
-        #demo11 {
-            .grid-container {
-                --cell-fill-color: black;
-            }
-
-            .cell:nth-child(n+204):nth-child(-n+231) {
-                background-color: lightgray;
-            }
-
-            .cell.empty.bl {
-                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * -1) 0 0 1px var(--grid-border-color)
-            }
-
-            .cell.empty.br {
-                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * 1) 0 0 1px var(--grid-border-color)
-            }
-        }
-
         .columns .cell:nth-child(3n-1) {
             background-color: lightgray;
         }
@@ -94,6 +76,41 @@
             height: 0.7em;
         }
 
+        .snake {
+            .cell:last-child,
+            .cell:first-child {
+                background: none;
+                color: black;
+                outline: none;
+                box-shadow: none !important;
+                visibility: visible !important;
+            }
+            .cell:first-child::after {
+                content: 'A▾';
+            }
+            .cell:last-child::after {
+                content: '▴B';
+            }
+        }
+
+        #demo11 {
+            .grid-container {
+                --cell-fill-color: black;
+            }
+
+            .cell:nth-child(n+204):nth-child(-n+231) {
+                background-color: lightgray;
+            }
+
+            .cell.empty.bl {
+                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * -1) 0 0 1px var(--grid-border-color)
+            }
+
+            .cell.empty.br {
+                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * 1) 0 0 1px var(--grid-border-color)
+            }
+        }
+
         #demo14 .cell:nth-child(5) {
             color: #EE2222;
         }
@@ -115,7 +132,6 @@
         }
 
         #demo19 {
-
             .cell:nth-child(24)::after,
             .cell:nth-child(33)::after {
                 content: ',';
@@ -132,7 +148,6 @@
         }
 
         #demo20 {
-
             .cell:nth-child(10)::after,
             .cell:nth-child(12)::after,
             .cell:nth-child(24)::after,
@@ -210,6 +225,43 @@
                 transform: rotate(180deg);
             }
         }
+
+        #demo23 {
+            .placeholder {
+                border-top: 1px solid black;
+                border-left: 1px solid black;
+            }
+
+            img {
+                border: 1px solid white;
+                box-sizing: border-box;
+            }
+
+            .cell.empty.bl {
+                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * -1) 0 0 1px var(--grid-border-color)
+            }
+        }
+
+        #demo25 {
+            .cell.cell:nth-child(21),
+            .cell.cell:nth-child(35),
+            .cell.cell:nth-child(64),
+            .cell.cell:nth-child(78),
+            .cell.cell:nth-child(105),
+            .cell.cell:nth-child(119),
+            .cell.cell:nth-child(148),
+            .cell.cell:nth-child(162) {
+                background: #d3f5c4;
+            }
+
+            .cell.empty.br.bt {
+                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * 1) 0 0 1px var(--grid-border-color), 0 calc(var(--grid-border-size) * -1) 0 1px var(--grid-border-color);
+            }
+
+            .cell.empty.br {
+                box-shadow: inset 0 0 0 var(--cell-empty-padding) white, inset 0 0 var(--cell-size) var(--cell-size) var(--cell-fill-color), calc(var(--grid-border-size) * 1) 0 0 1px var(--grid-border-color);
+            }
+        }
     </style>
 </head>
 
@@ -243,7 +295,10 @@
         <div class="schema modern hide-numbers" id="demo20" data-title="Inner cells"></div>
         <div class="schema modern sudoproverb" id="demo21" data-title="Proverb sudoku"></div>
         <div class="schema" id="demo22" data-title="With core"></div>
-        <div class="schema modern hide-numbers" id="demo11" data-title="Triple connected, hard">
+        <div class="schema" id="demo23" data-title="Multi-style"></div>
+        <div class="schema modern snake" id="demo24" data-title="Snake"></div>
+        <div class="schema modern" id="demo25" data-title="Divided"></div>
+        <div class="schema modern hide-numbers" id="demo11" data-title="Triple connected">
         </div>
     </div>
 
